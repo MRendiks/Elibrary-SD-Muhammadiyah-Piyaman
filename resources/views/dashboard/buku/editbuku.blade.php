@@ -76,13 +76,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="gambar">Gambar Buku</label>
+                                <img src="{{asset('gambar_buku/'.$buku->gambar)}}" alt="" width="100px" class="ml-2 mb-2">
                                 <div class="col-sm-9">
                                   <input type="file" class="form-control" name="gambar" id="gambar" accept="image/png, image/gif, image/jpeg" value="{{old('gambar')}}">
                                 </div>
                               </div>
-                                <div class="mb-3">
+                            </div>
+                                <div class="mb-3" style="margin-left: 15px;">
                                     <button type="submit" class="btn btn-info">Update</button>
                                 </div>
+                                
                             </form>
  
                         </div>

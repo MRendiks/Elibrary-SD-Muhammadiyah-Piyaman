@@ -98,41 +98,68 @@ class DashboardBukuController extends Controller
     {
         // return view('admin.supplier.editsupplier');
         $buku = buku::find($id);
+        // dd($buku);
         return view('dashboard.buku.editbuku', compact('buku'));
     }
     public function update(Request $request, $id)
     {
         // dd($request);
         $buku = buku::find($id);
-        $file= $request->file('gambar');
-        $ext = $request->file('gambar')->getClientOriginalExtension();
-        $filename = $request->nama_pengaju . 'gambar' . rand(1, 10000) . '.' . $ext;
-        $file->move('gambar_buku/', $filename);
+
+        if ($request->hasFile('gambar')) {
+            
+            $file= $request->file('gambar');
+            $ext = $request->file('gambar')->getClientOriginalExtension();
+            $filename = $request->nama_pengaju . 'gambar' . rand(1, 10000) . '.' . $ext;
+            $file->move('gambar_buku/', $filename);
+            $buku->gambar = $filename;
+            
+        }
         $buku->kode_buku = $request->input('kode_buku');
         $buku->judul_buku = $request->input('judul_buku');
         $buku->jenis_buku = $request->input('jenis_buku');
         $buku->tahun_terbit = $request->input('tahun_terbit');
         $buku->rak = $request->input('rak');
-        
         $buku->stok = $request->input('stok');
-        $buku->gambar = $filename;
+        
         $buku->update();
+        
         return redirect('data-buku');
     }
+
     public function kurangiStok($id)
-{
-    $buku = Buku::find($id);
-    
-    if ($buku) {
-        if ($buku->stok > 0) {
-            $buku->stok -= 1;
-            $buku->save();
-            return "Stok barang dengan ID $id berhasil dikurangi.";
+    {
+        $buku = Buku::find($id);
+        
+        if ($buku) {
+            if ($buku->stok > 0) {
+                $buku->stok -= 1;
+                $buku->save();
+                return "Stok barang dengan ID $id berhasil dikurangi.";
+            } else {
+                return "Stok barang dengan ID $id sudah habis.";
+            }
         } else {
-            return "Stok barang dengan ID $id sudah habis.";
+            return "Barang dengan ID $id tidak ditemukan.";
         }
-    } else {
-        return "Barang dengan ID $id tidak ditemukan.";
     }
-}
+    
+    public function search_book_name(Request $request)
+    {
+        $searchQuery = $request->input('search');
+        $databuku = Buku::when($searchQuery, function ($query) use ($searchQuery) {
+            return $query->where('judul_buku', 'like', '%' . $searchQuery . '%');
+        })->get();
+        $pinjam = Peminjaman::select('peminjaman.id' ,'users.kode_anggota', 'users.nama_anggota', 'buku.judul_buku', 'peminjaman.tgl_pinjam', 'peminjaman.tgl_kembali', 'peminjaman.status', 'buku.stok')
+        ->join('users', 'users.id', '=', 'peminjaman.userId')
+        ->join('buku', 'buku.id', '=', 'peminjaman.bukuId')
+        ->where('buku.stok', '>', 0)
+        ->get();
+        $minDate = Carbon::now();
+        $minDate = $minDate->toDateString();
+        
+        return view('welcome_user', compact('databuku', 'pinjam', 'minDate'));
+    }
+
+    
 }

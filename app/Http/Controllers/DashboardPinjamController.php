@@ -18,7 +18,13 @@ class DashboardPinjamController extends Controller
         ->join('buku', 'buku.id', '=', 'peminjaman.bukuId')
         ->where('peminjaman.status', '=', 'dipinjam')
         ->get();
-        return view('dashboard.pinjam.data-pinjam', ['datapinjam' => $pinjam]);
+
+        $filter = [
+            'bulan' => "",
+            "tahun" => ""
+        ];
+
+        return view('dashboard.pinjam.data-pinjam', ['datapinjam' => $pinjam, 'filter'=>$filter]);
     }
 
     public function add()
@@ -51,11 +57,22 @@ class DashboardPinjamController extends Controller
             $pinjam->tgl_kembali = $request->tgl_kembali;
             $pinjam->status = "dipinjam";
             
-            $pinjam->save();
+            
 
             $buku = Buku::find($pinjam->bukuId);
-            $buku->decrement('stok', 1);
-            return redirect()->route('datapinjam');
+            if ($buku) {
+                if ($buku->stok > 0) {
+                    $buku->decrement('stok', 1);
+                    $pinjam->save();
+                    return redirect()->route('datapinjam')->with('success', 'Data Berhasil Dipinjam');
+                } else {
+                    return redirect()->route('datapinjam')->with('failed', 'Data Tidak Berhasil Dipinjam, Stok Habis');
+                }
+            } else {
+                return redirect()->route('datapinjam')->with('failed', 'Data Tidak Berhasil Dipinjam, Buku Tidak ada');
+            }
+            
+            // return redirect()->route('datapinjam');
         // $buku = Buku::find($request->bukuId);
         // $stockExists = $buku->stock > 0;
         // if ($stockExists) {
@@ -67,6 +84,8 @@ class DashboardPinjamController extends Controller
         
        
     }
+
+
 
     public function delete(Request $request)
     {
@@ -93,8 +112,6 @@ class DashboardPinjamController extends Controller
         // dd($request);
         
         $pinjam = Peminjaman::find($id);
-        // $pinjam->userId = $request->input('userId');
-        // $pinjam->bukuId = $request->input('bukuId');
         $pinjam->tgl_pinjam = $request->input('tgl_pinjam');
         $pinjam->tgl_kembali = $request->input('tgl_kembali');
         $pinjam->status = $request->input('status');
@@ -102,12 +119,55 @@ class DashboardPinjamController extends Controller
         $tgl_kembali = Carbon::parse($request->input('tgl_kembali')) ;
         
         $keterlambatan = Carbon::now()->diffInDays($tgl_kembali);
-        if ($keterlambatan < 0) {
+        if ($keterlambatan > 0) {
             $pinjam->keterlambatan = $keterlambatan;
+        }else{
+            $pinjam->keterlambatan = 0;
         }
         $pinjam->update();
+        return redirect('data-kembali');
+    }
 
+    public function filter_pinjam(Request $request)
+    {
+        $filter = [
+            'bulan' => "",
+            "tahun" => ""
+        ];
 
-        return redirect('data-pinjam');
+        $filter['bulan'] = $request->input('bulan');
+        $filter['tahun'] = $request->input('tahun');
+        $datapinjam = Peminjaman::select('peminjaman.id' ,'users.kode_anggota', 'users.nama_anggota', 'buku.judul_buku', 'peminjaman.tgl_pinjam', 'peminjaman.tgl_kembali', 'peminjaman.status')
+        ->join('users', 'users.id', '=', 'peminjaman.userId')
+        ->join('buku', 'buku.id', '=', 'peminjaman.bukuId')
+        ->whereMonth('tgl_pinjam', $filter['bulan'])
+        ->whereYear('tgl_pinjam', $filter['tahun'])->get()
+        ->where('status', '=', 'dipinjam');
+        
+        return view('dashboard.pinjam.data-pinjam', compact('datapinjam', 'filter'));
+
+    }
+
+    public function cetak_pinjam(Request $request)
+    {  
+        $query = Peminjaman::query();
+        $query->select('peminjaman.id' ,'users.kode_anggota', 'users.nama_anggota', 'buku.judul_buku', 'peminjaman.tgl_pinjam', 'peminjaman.tgl_kembali', 'peminjaman.status');
+        $query->join('users', 'users.id', '=', 'peminjaman.userId');
+        $query->join('buku', 'buku.id', '=', 'peminjaman.bukuId');
+        $query->where('status', '=', 'dipinjam');
+        if(!is_null($request->input('tahun'))){
+            $filter['tahun'] = $request->input('tahun');
+            $year = $request->input('tahun');
+            $query->whereYear('tgl_pinjam', $year);
+        }
+        if(!is_null($request->input('bulan'))){
+            $filter['bulan'] = $request->input('bulan');
+            $month = $request->input('bulan');
+            $query->whereMonth('tgl_pinjam', $month);
+        }
+
+        $datapinjam = $query->get();
+        
+        return view('dashboard.pinjam.laporan_cetak', compact('datapinjam'));
     }
 }

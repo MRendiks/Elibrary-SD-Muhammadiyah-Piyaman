@@ -4,10 +4,14 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Data Buku</h1>
     </div>
-    <div class="d-flex mb-3 justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
-    <a href="/addbuku" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+    <div class="d-flex mb-3 justify-content-start flex-wrap flex-md-nowrap align-items-center pb-2">
+    <a href="/addbuku" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" style="margin-right: 100px;">
         <i class="fas fa-download fa-sm text-white-50"></i> Tambah Buku</a>
+
+    
+        
     </div>
+    
 
     <div class="card shadow mb-4">
 

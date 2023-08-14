@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_buku')->nullable();
             $table->string('judul_buku')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->string('jenis_buku')->nullable();
             $table->string('tahun_terbit')->nullable();
             $table->string('penerbit')->nullable();

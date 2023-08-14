@@ -46,6 +46,8 @@ return view('user');
 Route::group(['middleware' => ['auth', 'ceklevel:anggota']], function(){
     route::get('/welcome', [DashboardBukuController::class, 'welcome'])->name('welcome');
     route::post('/{id}/cetak', [DashboardBukuController::class, 'cetak'])->name('cetak');
+    route::get('/search_book_name', [DashboardBukuController::class, 'search_book_name'])->name('search.book_name');
+
     
 });
 
@@ -100,6 +102,13 @@ Route::group(['middleware' => ['auth', 'ceklevel:petugas']], function(){
 
     route::get('/minjam', [DashboardMinjamController::class, 'minjam']);
     route::get('/back', [DashboardBackController::class, 'back']);
+
+    # PINJAM
+    # FILTER
+    route::post('/filter_pinjam', [DashboardPinjamController::class, 'filter_pinjam'])->name('filter.pinjam');
+
+    # CETAK
+    route::get('/cetak_pinjam', [DashboardPinjamController::class, 'cetak_pinjam'])->name('cetak.pinjam');
 });
 
 

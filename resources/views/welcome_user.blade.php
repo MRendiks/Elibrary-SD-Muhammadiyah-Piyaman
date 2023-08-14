@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/f9355065a6.js" crossorigin="anonymous"></script>
     <title>E~Library</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body> 
     <div class="row">
@@ -27,15 +28,30 @@
                     </li>
                     <li class="nav-item" style="margin-right: 50px;">
                         <a class="nav-link" href="#book">My Books</a>
-                      </li>
-                      <form class="d-flex ms-auto my-4 my-lg-0 m-0" role="search">
-            <!-- <div class="input-group mb-0 scr">
-              <input type="search" class="form-control" placeholder="Cari Buku" aria-label="Search" aria-describedby="button=addon2" style="width:20ww;">
-              <button class="btn btn-brown btn-outline-primary m-0" type="submit" id="button-addon2">
-                <i class="fa fa-search text-white" aria-hidden="true"></i>
-              </button>
-          </div> -->
-          </form>
+                    </li>
+                    <li class="nav-item" style="margin-right: 50px;">
+                      
+                        <form action="{{route('search.book_name')}}" method="GET">
+                          <div class="input-group">
+                          <div class="form-outline">
+                            <input type="search" id="form1" name="search" class="form-control" placeholder="Search...."/>
+                          </div>
+                          {{-- <input type="submit" value="search"> --}}
+                          <button type="submit" value="Submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                        </form>
+                      
+                  </li>
+                  {{-- <form class="d-flex ms-auto my-4 my-lg-0 m-0" role="search">
+                    <div class="input-group mb-0 scr">
+                      <input type="search" class="form-control" placeholder="Cari Buku" aria-label="Search" aria-describedby="button=addon2" style="width:20ww;">
+                      <button class="btn btn-brown btn-outline-primary m-0" type="submit" id="button-addon2">
+                        <i class="fa fa-search text-white" aria-hidden="true"></i>
+                      </button>
+                  </div> 
+                      </form> --}}
                 @if (auth()->user()->level == 'anggota' || auth()->user()->level == 'petugas')
                 
                 <li class="nav-item nav-profile dropdown">
@@ -59,12 +75,12 @@
                             <i class="ti-power-off text-primary"></i>List Peminjaman
                         </a>
                     </li>
-                      <li>
-                        <a class="dropdown-item" href="/logout">
-                        <i class="ti-power-off text-primary"></i>
-                        Logout
-                      </a>
-                      </li>
+                    <li>
+                      <a class="dropdown-item" href="/logout">
+                      <i class="ti-power-off text-primary"></i>
+                      Logout
+                    </a>
+                    </li>
                     </ul>
                   </div>
                 </li>
@@ -238,6 +254,11 @@
                 <div class="form-group">
                   <label for="judul_buku">Judul Buku</label>
                   <input type="text" name="judul_buku" id="judul_buku" class="form-control" readonly value="{{$item->judul_buku}}">
+              </div>
+                <div class="form-group">
+                  <label for="judul_buku">Deskripsi Buku</label>
+                  <textarea class="form-control" readonly cols="30" rows="10">{{$item->deskripsi}}</textarea>
+                  {{-- <input type="text" name="judul_buku" id="judul_buku" class="form-control" readonly value="{{$item->deskripsi}}"> --}}
               </div>
                 <div class="form-group">
                   <label for="gambar">Buku</label>
