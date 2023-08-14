@@ -17,61 +17,61 @@
     </div>
     <div class="d-flex mb-3 justify-content-start flex-wrap flex-md-nowrap align-items-center pb-2">
 
-    <a href="/addpinjam" class="col-md-2 d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" style="margin-right: 30px;">
-        <i class="fas fa-download fa-sm text-white-50"></i> Tambah Peminjaman</a>
+        <a href="/addpinjam" class="col-md-2 d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" style="margin-right: 30px;">
+            <i class="fas fa-download fa-sm text-white-50"></i> Tambah Peminjaman</a>
 
-    <div class="col-md-3" style="margin-right: 300px; width: 250px;">
-        <form action="{{ route('cetak.pinjam') }}" method="get">
-            @csrf
-            @if ($filter['tahun'] != "")
-                <input type="text" name="tahun" value="{{$filter['tahun']}}" hidden>
-            @endif
-            @if ($filter['bulan'] != "")
-                <input type="text" name="bulan" value="{{$filter['bulan']}}" hidden>
-            @endif
-            <button type="submit" class="btn btn-danger"><i class="ion ion-printer mr-1"></i> Cetak Laporan Pinjam</button>
-        </form>
-    </div>
+        <div class="col-md-3" style="margin-right: 300px; width: 250px;">
+            <form action="{{ route('cetak.pinjam') }}" method="get">
+                @csrf
+                @if ($filter['tahun'] != "")
+                    <input type="text" name="tahun" value="{{$filter['tahun']}}" hidden>
+                @endif
+                @if ($filter['bulan'] != "")
+                    <input type="text" name="bulan" value="{{$filter['bulan']}}" hidden>
+                @endif
+                <button type="submit" class="btn btn-danger"><i class="ion ion-printer mr-1"></i> Cetak Laporan Pinjam</button>
+            </form>
+        </div>
 
-    <div class="col-md-6" >
-        <form action="{{route('filter.pinjam')}}" method="post">
-            @csrf
-            <div class="d-flex justify-content-start">
-                <div class="col-md-3 " style="margin-right: 10px;">
-                    <select name="bulan" id="bulan" class="form-control"  required >
-                    <option value="">- PILIH BULAN -</option>
-                    <option value="1">Januari</option>
-                    <option value="2">Februari</option>
-                    <option value="3">Maret</option>
-                    <option value="4">April</option>
-                    <option value="5">Mei</option>
-                    <option value="6">Juni</option>
-                    <option value="7">Juli</option>
-                    <option value="8">Agustus</option>
-                    <option value="9">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">November</option>
-                    <option value="12">Desember</option>
-                    </select>
+        <div class="col-md-6" >
+            <form action="{{route('filter.pinjam')}}" method="post">
+                @csrf
+                <div class="d-flex justify-content-start">
+                    <div class="col-md-3 " style="margin-right: 10px;">
+                        <select name="bulan" id="bulan" class="form-control"  required >
+                        <option value="">- PILIH BULAN -</option>
+                        <option value="1">Januari</option>
+                        <option value="2">Februari</option>
+                        <option value="3">Maret</option>
+                        <option value="4">April</option>
+                        <option value="5">Mei</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">Agustus</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="tahun" id="tahun" class="form-control" required>
+                            <option value="">- PILIH TAHUN -</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary" style="background-color: blue;"><i class="ion ion-search mr-1"></i> Search</button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <select name="tahun" id="tahun" class="form-control" required>
-                        <option value="">- PILIH TAHUN -</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                    </select>
-                </div>
-                <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <button type="submit" class="btn btn-primary" style="background-color: blue;"><i class="ion ion-search mr-1"></i> Search</button>
-                </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
     
 
     </div>

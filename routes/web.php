@@ -109,6 +109,13 @@ Route::group(['middleware' => ['auth', 'ceklevel:petugas']], function(){
 
     # CETAK
     route::get('/cetak_pinjam', [DashboardPinjamController::class, 'cetak_pinjam'])->name('cetak.pinjam');
+
+    # KEMBALI
+    # FILTER
+    route::post('/filter_kembali', [DashboardKembaliController::class, 'filter_kembali'])->name('filter.kembali');
+
+    # CETAK
+    route::get('/cetak_kembali', [DashboardKembaliController::class, 'cetak_kembali'])->name('cetak.kembali');
 });
 
 
