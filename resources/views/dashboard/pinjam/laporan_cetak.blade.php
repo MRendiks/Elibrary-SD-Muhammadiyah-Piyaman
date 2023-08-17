@@ -30,7 +30,7 @@
 				<tbody>
 					<tr>
 						<td class="text-left" width="20%">
-							<img src="" alt="logo-dkm" width="70" />
+							<img src="{{asset('gambar_buku/bk.jpg')}}" alt="logo-dkm" width="70" />
 						</td>
 						<td class="text-center" width="60%">
 						<b>E-Library SD Muhammadiyah Piyaman</b> <br>
