@@ -23,6 +23,7 @@
                             <th>Id Buku</th>
                             <th>Kode buku</th>
                             <th>Judul Buku</th>
+                            <th>Deskripsi</th>
                             <th>Jenis Buku</th>
                             <th>Tahun Terbit</th>
                             <th>Rak</th>
@@ -38,6 +39,7 @@
                             <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->kode_buku }}</td>
                                 <td>{{ $data->judul_buku }}</td>
+                                <td width="20%">{{ $data->deskripsi }} </td>
                                 <td>{{ $data->jenis_buku }}</td>
                                 <td>{{ $data->tahun_terbit }}</td>
                                 <td>{{ $data->rak }}</td>

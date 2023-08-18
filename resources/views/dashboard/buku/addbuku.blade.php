@@ -31,6 +31,14 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
+                                <label for="deskripsi" class="form-label">Deskripsi buku</label>
+                                <input type="text" class="form-control" id="deskripsi" name="deskripsi"
+                                value="{{ old('deskripsi') }}" />
+                                @error('deskripsi')
+                                    <small class="text-danger mt-2">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
                                 <label for="jenis_buku" class="form-label">Jenis buku</label>
                                 <input type="text" class="form-control" id="jenis_buku" name="jenis_buku"
                                 value="{{ old('jenis_buku') }}" />

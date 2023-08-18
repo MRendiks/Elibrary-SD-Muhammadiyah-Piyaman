@@ -68,6 +68,7 @@ class DashboardBukuController extends Controller
             $file->move('gambar_buku/', $filename);
             $buku->kode_buku = $request->kode_buku;
             $buku->judul_buku = $request->judul_buku;
+            $buku->deskripsi = $request->deskripsi;
             $buku->jenis_buku = $request->jenis_buku;
             $buku->tahun_terbit = $request->tahun_terbit;
             $buku->penerbit = $request->penerbit;
@@ -118,6 +119,7 @@ class DashboardBukuController extends Controller
         $buku->kode_buku = $request->input('kode_buku');
         $buku->judul_buku = $request->input('judul_buku');
         $buku->jenis_buku = $request->input('jenis_buku');
+        $buku->deskripsi = $request->input('deskripsi');
         $buku->tahun_terbit = $request->input('tahun_terbit');
         $buku->rak = $request->input('rak');
         $buku->stok = $request->input('stok');
